@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-service-config-map
+data:
+  server.port: "8080"
+  spring.security.oauth2.resource-server.jwt.jwk-set-uri: "http://keycloak-app:8484/auth/realms/my_realm/protocol/openid-connect/certs"
+  spring.security.oauth2.resource-server.jwt.issuer-uri: "http://keycloak-app:8484/auth/realms/my_realm"
+  logging.level.web: "debug"

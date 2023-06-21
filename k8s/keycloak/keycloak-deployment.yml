@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+spec:
+  replicas: 1
+
+  template:
+    metadata:
+      name: keycloak-app
+      labels:
+        app: keycloak-app
+    spec:
+      containers:
+        - name: keycloak-container
+          image: jboss/keycloak:latest
+          ports:
+            - containerPort: 8084
+          envFrom:
+            - configMapRef:
+                name: keycloak-config-map
+  selector:
+    matchLabels:
+      app: keycloak-app

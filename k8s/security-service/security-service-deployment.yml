@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-service-deployment
+spec:
+  replicas: 1
+
+  template:
+    metadata:
+      name: security-service-app
+      labels:
+        app: security-service-app
+    spec:
+      containers:
+        - name: security-service-container
+          image: steppedua/security-service-container
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: security-service-config-map
+  selector:
+    matchLabels:
+      app: security-service-app
