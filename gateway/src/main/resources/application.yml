@@ -1,0 +1,40 @@
+server:
+  port: 8083
+
+spring:
+  application.name: backend-gateway-client
+  cloud:
+    gateway:
+      routes:
+        - id: resources
+          uri: http://localhost:8080/api/v1/user
+          predicates:
+            Path=/api/v1/user/**
+          filters:
+            TokenRelay=
+        - id: resources
+          uri: http://localhost:8080/api/v1/anonymous
+          predicates:
+            Path=/api/v1/anonymous/**
+          filters:
+            TokenRelay=
+        - id: resources
+          uri: http://localhost:8080/api/v1/admin
+          predicates:
+            Path=/api/v1/admin/**
+          filters:
+            TokenRelay=
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: my-provider
+            client-id: my_client
+            client-secret: SoEdNV758JDQV2v9UEYIZICipNQwPOn7
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8083/login/oauth2/code/{registrationId}"
+            scope: openid, message.read
+        provider:
+          my-provider:
+            issuer-uri: http://localhost:8484/auth/realms/my_realm
