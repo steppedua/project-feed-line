@@ -32,6 +32,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jooq'
     runtimeOnly 'org.postgresql:postgresql:42.5.1'
     jooqGenerator 'org.postgresql:postgresql:42.5.1'
+    implementation 'org.testcontainers:testcontainers-jooq-codegen-maven-plugin:0.0.2'
+    testImplementation 'org.testcontainers:postgresql:1.18.3'
+    testImplementation "org.testcontainers:junit-jupiter:1.18.3"
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 }
 
 import org.jooq.meta.jaxb.Logging
