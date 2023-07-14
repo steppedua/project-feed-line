@@ -1,11 +1,11 @@
-package com.steppedua.userservice;
+package com.steppedua.userservice.repository;
 
 
 import com.steppedua.userservice.dto.UserCreateRequestDto;
 import com.steppedua.userservice.tables.pojos.User;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -13,9 +13,9 @@ import java.util.UUID;
 
 import static com.steppedua.userservice.tables.User.USER;
 
-@Repository
+@Component
 @RequiredArgsConstructor
-public class UserRepository {
+public class UserDAO {
     private final DSLContext dsl;
 
     public UUID createUser(UserCreateRequestDto user) {

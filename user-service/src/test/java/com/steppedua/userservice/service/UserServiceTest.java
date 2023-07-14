@@ -1,6 +1,6 @@
 package com.steppedua.userservice.service;
 
-import com.steppedua.userservice.UserRepository;
+import com.steppedua.userservice.repository.UserDAO;
 import com.steppedua.userservice.dto.UserCreateRequestDto;
 import com.steppedua.userservice.tables.pojos.User;
 import org.assertj.core.api.Assertions;
@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+//import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+//import org.testcontainers.containers.PostgreSQLContainer;
+//import org.testcontainers.junit.jupiter.Container;
+//import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -21,21 +21,21 @@ import java.util.UUID;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
-@Testcontainers
+//@Testcontainers
 class UserServiceTest {
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.3-alpine")
-            .withDatabaseName("test")
-            .withUsername("postgres")
-            .withPassword("postgres")
-            .withExposedPorts(5432);
+//    @Container
+//    @ServiceConnection
+//    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.3-alpine")
+//            .withDatabaseName("test")
+//            .withUsername("postgres")
+//            .withPassword("postgres")
+//            .withExposedPorts(5432);
 
     @Mock
-    private UserRepository userRepository;
+    private UserDAO userDAO;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
     private String uuid;
     private User user;
 
@@ -50,7 +50,7 @@ class UserServiceTest {
     void shouldCreateUserSuccessfully() {
         final var userCreateRequestDto = new UserCreateRequestDto("Ivan", "Ivanov");
 
-        given(userRepository.createUser(userCreateRequestDto)).willReturn(UUID.fromString(uuid));
+        given(userDAO.createUser(userCreateRequestDto)).willReturn(UUID.fromString(uuid));
 
         final var userUUID = userService.createUser(userCreateRequestDto);
         Assertions.assertThat(userUUID).isEqualTo(UUID.fromString(uuid));
@@ -58,7 +58,7 @@ class UserServiceTest {
 
     @Test
     void shouldGetUserByIdTest() {
-        given(userRepository.getUserById(UUID.fromString(uuid))).willReturn(Optional.of(user));
+        given(userDAO.getUserById(UUID.fromString(uuid))).willReturn(Optional.of(user));
 
         final var userById = userService.getUserById(UUID.fromString(uuid));
 
